@@ -3,6 +3,7 @@ const path = require("path"); // path模块
 const request = require("request"); // 通过request发送请求
 const cheerio = require("cheerio"); // 通过cheerio来获取DOM
 const moment = require("moment"); // 格式化时间
+const schedule = require("node-schedule");
 
 const baseUrl = "https://www.zhihu.com"; // 基本链接
 
@@ -41,7 +42,10 @@ function RECORD(time, topics) {
 function getTopicInfo(ele, index, time) {
   const topic = {};
   topic.rank = index + 1; // 排名
-  topic.title = ele.find("h2").text().trim(); // 标题
+  topic.title = ele
+    .find("h2")
+    .text()
+    .trim(); // 标题
   topic.author = ele.find(".author-link").text(); // 作者
   topic.agree = ele.find(".count").text(); // 赞数
   let summary = ele.find(".summary").text(); // 简介
@@ -60,18 +64,17 @@ function getTopics(ele) {
   return arr;
 }
 
-
 // 写入文件
 function writeFile(url, data) {
-  const fileUrl = url;  // 文件地址
-  const appendData = data;  // 需要添加的数据
+  const fileUrl = url; // 文件地址
+  const appendData = data; // 需要添加的数据
   // 判断文件是否存在
   if (fs.existsSync(fileUrl)) {
     // 文件存在
     fs.readFile(fileUrl, "utf-8", (err, data) => {
       const oldData = JSON.parse(data); // 旧的数据
       oldData.push(appendData); // 将新添加的数据push进旧的数据中
-      const newData = JSON.stringify(oldData);  // 将对象字符串化
+      const newData = JSON.stringify(oldData); // 将对象字符串化
       // 写入文件
       fs.writeFile(fileUrl, newData, err => {
         if (err) throw err;
@@ -81,12 +84,16 @@ function writeFile(url, data) {
     // 文件不存在
     const data = JSON.stringify([appendData]);
     // writeFile中的flag设为w+时，不存在文件会创建文件
-    fs.writeFile(fileUrl, data, {flag: 'w+'}, err => {
+    fs.writeFile(fileUrl, data, { flag: "w+" }, err => {
       if (err) throw err;
     });
   }
 }
+// 每天定时获取
+function scheduleTask() {
+  schedule.scheduleJob("0 0 0 * * *", () => {
+    _main();
+  });
+}
 
-
-
-_main();
+scheduleTask();
