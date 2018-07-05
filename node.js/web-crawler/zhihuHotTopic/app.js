@@ -33,6 +33,15 @@ function _main() {
   });
 }
 
+function getTopic(type, $, time) {
+  request(`${ baseUrl }/explore`, (error, response, body) => {
+    if(error || !body) return;
+    const topic = $(`.tab-panel>div[data-type=${ type }] .feed-item`);
+    const arr = getTopics(topic);
+    const fileUrl = path.resolve(__dirname, `./${ type }_topic.json`);
+  })
+}
+
 // 存储话题对象
 function RECORD(time, topics) {
   this.time = time; // 日期
