@@ -7,39 +7,20 @@ const schedule = require("node-schedule");
 
 const baseUrl = "https://www.zhihu.com"; // 基本链接
 
-function _main() {
+// 获取话题的主要函数
+function getTopic(type, time) {
   request(`${baseUrl}/explore`, (error, response, body) => {
-    if (error || !body) {
-      return;
-    }
+    if (error || !body) return;
     const $ = cheerio.load(body);
-    // 获取相关元素
-    const dailyTopic = $(".tab-panel>div[data-type=daily] .feed-item");
-    const monthlyTopic = $(".tab-panel>div[data-type=monthly] .feed-item");
-    // 获取标题数组
-    const dailyArr = getTopics(dailyTopic);
-    const monthlyArr = getTopics(monthlyTopic);
+    const time =  moment().format("YYYY-MM-DD HH:MM"); // 时间
+    const topic = $(`.tab-panel>div[data-type=${ type }] .feed-item`);  // 相关元素
+    const arr = getTopics(topic); // 话题数组
+    const record = new RECORD(time, arr); // 单个记录
+    const fileUrl = path.resolve(__dirname, `./${ type }_topic.json`); // 文件路径
 
-    // 创建单个保存的对象
-    const time = moment().format("YYYY-MM-DD HH:MM");
-    const dailyRecord = new RECORD(time, dailyArr);
-    const monthlyRecord = new RECORD(time, monthlyArr);
-
-    // 保存文件路径
-    const dailyFileUrl = path.resolve(__dirname, "./daily_topic.json");
-    const monthlyFileUrl = path.resolve(__dirname, "./monthly_topic.json");
-    writeFile(dailyFileUrl, dailyRecord);
-    writeFile(monthlyFileUrl, monthlyRecord);
-  });
-}
-
-function getTopic(type, $, time) {
-  request(`${ baseUrl }/explore`, (error, response, body) => {
-    if(error || !body) return;
-    const topic = $(`.tab-panel>div[data-type=${ type }] .feed-item`);
-    const arr = getTopics(topic);
-    const fileUrl = path.resolve(__dirname, `./${ type }_topic.json`);
+    writeFile(fileUrl, record);
   })
+    
 }
 
 // 存储话题对象
@@ -100,8 +81,13 @@ function writeFile(url, data) {
 }
 // 每天定时获取
 function scheduleTask() {
-  schedule.scheduleJob("0 0 0 * * *", () => {
-    _main();
+  // 每小时获取一次每日最热话题
+  schedule.scheduleJob("0 15 * * * *", () => {
+    getTopic('daily');
+  });
+  // 每天获取一次每月最热话题
+  schedule.scheduleJob("0 15 20 * * *", () => {
+    getTopic('monthly');
   });
 }
 
