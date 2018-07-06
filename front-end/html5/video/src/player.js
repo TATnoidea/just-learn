@@ -1,6 +1,5 @@
 function videoPlay(ele) {
   ele.play();
 }
-export default {
-  videoPlay
-}
+export default videoPlay
+
