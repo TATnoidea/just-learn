@@ -1,0 +1,14 @@
+{
+  "name": "video",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "rollup -c rollup.config.js"
+  },
+  "devDependencies": {
+    "flow-bin": "^0.75.0",
+    "rollup": "^0.62.0"
+  },
+  "dependencies": {}
+}
