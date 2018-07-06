@@ -2,14 +2,17 @@
 日常学习。
 
 ```
+// 文件夹结构
 ├─front-end
 │  ├─flow
+│  │  └─src
+│  ├─html5
+│  │  └─video
 │  ├─parcel
 │  ├─react
 │  │  └─tic-tac-toe
-│  ├─rollup
-│  │  └─my-rollup-project
-│  └─video
+│  └─rollup
+│      └─demo
 └─node.js
     ├─express
     │  └─helloWorld
