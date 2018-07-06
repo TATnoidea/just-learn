@@ -1,1 +1,6 @@
-const videoEle = document.querySelector("#video");
+function videoPlay(ele) {
+  ele.play();
+}
+export default {
+  videoPlay
+}
