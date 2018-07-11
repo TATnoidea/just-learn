@@ -1,0 +1,13 @@
+{
+  "name": "sequelize",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node ./src/app.js"
+  },
+  "dependencies": {
+    "mysql2": "^1.5.3",
+    "sequelize": "^4.38.0"
+  }
+}
