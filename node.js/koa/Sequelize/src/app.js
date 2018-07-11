@@ -24,14 +24,16 @@ sequelize.authenticate().then(() => {
   console.log('Unable to connect to the database:', err);
 });
 
-// const User = sequelize.define('user', {
-//   id: {
-//     type: Sequelize.NUMBER,
-//     primaryKey: true,
-//     autoIncrement: true
-//   },
-//   usernaeme: Sequelize.STRING,
-//   birthday: Sequelize.DATE
-// })
+const User = sequelize.define('user', {
+  firstName: Sequelize.STRING,
+  lastName: Sequelize.STRING
+});
 
-// console.log(User)
+// force为true的话，如果存在user表会先删除user表
+User.sync({ force: true }).then(() => {
+  return User.create({
+    firstName: 'John',
+    lastName: 'Hancock'
+  });
+});
+
