@@ -1,0 +1,19 @@
+<h3>{{ title }}</h3>
+<p>The sum of 1 + 1 is {{ 1 + 1 + getVal() }}</p>
+
+<span [hidden]='isUnchanged'>changed</span>
+
+<div *ngFor='let hero of heroes'>{{ hero.name }}</div>
+<input #heroInput value='1'> {{ heroInput.value }}
+
+<button (click)='onSave($event)'>Save</button>
+<button (click)="deleteHero()">Delete Hero</button>
+
+<form #heroForm (ngSubmit)="onSubmit(heroForm)">...</form>
+
+<div [ngClass]='classes'>[ngClass] binding to the classes property</div>
+
+<input [(ngModel)]='currentHero.name'>
+<div *ngIf='currentHero'>{{ currentHero.name }}</div>
+{{ currentHero.name | uppercase }}
+
