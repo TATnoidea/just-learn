@@ -11,7 +11,8 @@ import { VersionParentComponent } from './version-parent.component';
 import { VoterComponent } from './voter.component';
 import { VoterTakerComponent } from './votetaker.component';
 import { CountdownTimerComponent } from './countdown-timer.component';
-import { CountdownLocalVarParentComponent } from './countdown-parent.component';
+// import { CountdownLocalVarParentComponent } from './countdown-parent.component';
+import { CountdownViewChildParentComponent } from './countdown-parent.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +25,7 @@ import { CountdownLocalVarParentComponent } from './countdown-parent.component';
     VoterComponent,
     VoterTakerComponent,
     CountdownTimerComponent,
-    CountdownLocalVarParentComponent,
+    CountdownViewChildParentComponent,
   ],
   imports: [
     BrowserModule
